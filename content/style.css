@@ -1,0 +1,95 @@
+.card {
+
+	width:120px;
+	height:180px;
+	border-radius:15px;
+	border-width:3px;
+	border-style:inset;
+
+}
+
+table, th, td {
+
+	border-collapse:collapse;
+
+}
+
+.hide {
+	
+	visibility:hidden;
+	
+}
+
+#info {
+	
+	position:absolute;
+	bottom:0;
+	
+}
+
+th {
+
+	padding:20px;
+	background:black;
+
+}
+
+td {
+
+	text-align:center;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+	background:#322b2b;
+	color:white;
+	font-weight:bold;
+
+}
+
+.common {
+	color: white;
+}
+
+.unique {
+	color: #ff6000;
+}
+
+.rare {
+	color: #ffdc50;
+}
+
+.epic {
+	color: #aa32ff;
+}
+
+.leggendary {
+	color: red;
+}
+
+.god {
+	color:rgb(0,0,255);
+}
+
+.r-common {
+	border-color: white;
+}
+
+.r-unique {
+	border-color: #ff6000;
+}
+
+.r-rare {
+	border-color: #ffdc50;
+}
+
+.r-epic {
+	border-color: #aa32ff;
+}
+
+.r-leggendary {
+	border-color: red;
+}
+
+.r-god {
+	border-color: rgb(0,0,255);
+	border-style: outset !important;
+}
