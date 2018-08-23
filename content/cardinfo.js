@@ -526,6 +526,8 @@ var cards = {
 
 }
 
+const lang = "RU";
+
 var currentDeck = [];
 
 function pick(n,debug) {
@@ -793,29 +795,49 @@ function pick(n,debug) {
 
 		}
 
-		// if divinity or card with no boost
-		else {
+		// if divinity
+		else if ( currentDeck[i][3] == 4) {
 
 			document.getElementById("info" + i).innerHTML = "<span class='" + temp + "'>" + currentDeck[i][1] + "</span>";
 
 		}
 
+		// common card with no boost
+		else {
+
+			document.getElementById("info" + i).innerHTML = currentDeck[i][1];
+
+		}
 
 	}
 
 		// card type (for output)
 		switch (currentDeck.boost) {
 
-			case 0: var currentBoost = "spades"; break;
-			case 1: var currentBoost = "hearts"; break;
-			case 2: var currentBoost = "clubs"; break;
-			case 3: var currentBoost = "diamonds"; break;
-			case 4: var currentBoost = "divinities"; break;
+			case 0: if(lang == "EN"){var currentBoost = "spades"}else if(lang == "RU"){var currentBoost = "Пика"}; break;
+			case 1: if(lang == "EN"){var currentBoost = "hearts"}else if(lang == "RU"){var currentBoost = "Чирва"}; break;
+			case 2: if(lang == "EN"){var currentBoost = "clubs"}else if(lang == "RU"){var currentBoost = "Бубна"}; break;
+			case 3: if(lang == "EN"){var currentBoost = "diamonds"}else if(lang == "RU"){var currentBoost = "Кресты"}; break;
+			case 4: if(lang == "EN"){var currentBoost = "divinity"}else if(lang == "RU"){var currentBoost = "Божество"}; break;
 
 		}
 
-		document.getElementById("strenght").textContent = "strenght:" + currentDeck.strenght;
-		document.getElementById("boost").textContent = "current boost:" + currentBoost;
+		if (lang == "EN") {
+
+			var msg_placeholder1 = "strenght: ";
+			var msg_placeholder2 = "Trump card: ";
+
+		}
+
+		else if (lang == "RU") {
+
+			var msg_placeholder1 = "Сила: ";
+			var msg_placeholder2 = "Козырь: ";
+
+		}
+
+		document.getElementById("strenght").textContent = msg_placeholder1 + currentDeck.strenght;
+		document.getElementById("boost").textContent = msg_placeholder2 + currentBoost;
 
 		// table visible
 		document.getElementById("mainTable").style = "visibility:visible";
