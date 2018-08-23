@@ -814,11 +814,11 @@ function pick(n,debug) {
 		// card type (for output)
 		switch (currentDeck.boost) {
 
-			case 0: if(lang == "EN"){var currentBoost = "spades"}else if(lang == "RU"){var currentBoost = "Пика"}; break;
-			case 1: if(lang == "EN"){var currentBoost = "hearts"}else if(lang == "RU"){var currentBoost = "Чирва"}; break;
-			case 2: if(lang == "EN"){var currentBoost = "clubs"}else if(lang == "RU"){var currentBoost = "Бубна"}; break;
-			case 3: if(lang == "EN"){var currentBoost = "diamonds"}else if(lang == "RU"){var currentBoost = "Кресты"}; break;
-			case 4: if(lang == "EN"){var currentBoost = "divinity"}else if(lang == "RU"){var currentBoost = "Божество"}; break;
+			case 0: if(lang == "EN"){var currentBoost = "spades"}else if(lang == "RU"){var currentBoost = "РџРёРєР°"}; break;
+			case 1: if(lang == "EN"){var currentBoost = "hearts"}else if(lang == "RU"){var currentBoost = "Р§РёСЂРІР°"}; break;
+			case 2: if(lang == "EN"){var currentBoost = "clubs"}else if(lang == "RU"){var currentBoost = "РљСЂРµСЃС‚С‹"}; break;
+			case 3: if(lang == "EN"){var currentBoost = "diamonds"}else if(lang == "RU"){var currentBoost = "Р‘СѓР±РЅР°"}; break;
+			case 4: if(lang == "EN"){var currentBoost = "divinity"}else if(lang == "RU"){var currentBoost = "Р‘РѕР¶РµСЃС‚РІРѕ"}; break;
 
 		}
 
@@ -831,8 +831,8 @@ function pick(n,debug) {
 
 		else if (lang == "RU") {
 
-			var msg_placeholder1 = "Сила: ";
-			var msg_placeholder2 = "Козырь: ";
+			var msg_placeholder1 = "РЎРёР»Р°: ";
+			var msg_placeholder2 = "РљРѕР·С‹СЂСЊ: ";
 
 		}
 
