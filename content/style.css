@@ -1,103 +1,205 @@
+body {
+	background: #595959;
+	z-index: -2
+}
+
 .card {
 
-	width:120px;
-	height:180px;
-	border-radius:15px;
-	border-width:3px;
-	border-style:inset;
+	width: 135px;
+	height: 192px;
+	border-radius: 15px;
+	border-width: 3px;
+	border-style: inset;
+	z-index: 0;
+	box-shadow: 0 1px 2.5px #4d4d4d;
+	transition: all 1s, box-shadow 0.45s
 
+}
+
+.card:hover {
+	box-shadow: 0 5px 12px black
+}
+
+table {
+	border-radius: 0 0 25px 25px;
+	overflow: hidden;
+	z-index: 0;
+	margin: 0 auto;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46)
 }
 
 table, th, td {
 
-	border-collapse:collapse;
+	border-collapse: collapse;
+	padding: 13px
 
+}
+
+table td:first-child {
+	border-radius: 0 0 0 25px
+}
+
+table td:last-child {
+	border-radius: 0 0 25px 0
 }
 
 .hide {
 	
-	visibility:hidden;
+	visibility: hidden
 	
 }
 
 #info {
 	
-	position:absolute;
-	bottom:0;
+	position: absolute;
+	bottom: 2%;
+	padding: 4px;
+	z-index: 1;
+	overflow: hidden;
+	width: 170px
 	
 }
 
-th {
+#info p {
+	padding: 3px;
+	background: #1c1717;
+	margin: 8px 0 8px 0;
+	border-radius: 15px 0 15px 0;
+	border: 2.5px inset #ff6000;
+	padding: 4px;
+	color: white
+}
 
-	padding:20px;
-	background:black;
-
+#info p span {
+	color: #ff6000;
+	text-decoration: underline;
+	font-style: italic
 }
 
 td {
 
-	text-align:center;
-	border-top:1px solid black;
-	border-bottom:1px solid black;
-	background:#322b2b;
-	color:white;
-	font-size:15px;
+	text-align: center;
+	color: white;
+	font-size: 14px;
 	font-style: italic;
+	height: 20px
 
+}
+
+table tr:first-child {
+	background: #1c1717;
+	transition: all 1s
+}
+
+table tr:last-child {
+	background: #2a2222;
+	transition: all 1s
+}
+
+th, td {
+	position: relative
+}
+
+td:not(:first-child):nth-child(1n) {
+	border-left: 2px solid #544545
+}
+
+table tr:first-child:hover {
+	background: #463939
+}
+
+table tr:last-child:hover {
+	background: #382e2e
+}
+
+table th {
+	border-bottom: 1px solid #544545;
+	border-left: 2px solid transparent;
+	border-right: 2px solid transparent
+}
+
+th:hover, td:hover {
+	z-index: 0;
+	transition: all 0.1s;
+	background: #544545 !important
+}
+
+table th:not(:first-child):not(:last-child):hover {
+	border-left: 2px solid #2a2222;
+	border-right: 2px solid #2a2222
+}
+
+th:hover::after {
+	content: "";
+	position: absolute;
+	background: #463939;
+	left: 0;
+	top: -5000px;
+	height: 10000px;
+	width: 100%;
+	z-index: -1;
+	opacity: 1
 }
 
 .common {
-	color: white;
+	color: white
 }
 
 .unique {
-	color: #ff6000;
+	color: #ff6000
 }
 
 .rare {
-	color: #ffdc50;
+	color: #ffdc50
 }
 
 .epic {
-	color: #ca80ff;
+	color: #ca80ff
 }
 
 .leggendary {
-	color: #ff4d4d;
+	color: #ff4d4d
 }
 
 .god {
-	color:#8080ff;
+	color: #8080ff
 }
 
 .r-common {
-	border-color: white;
+	border-color: white
 }
 
 .r-unique {
-	border-color: #ff6000;
+	border-color: #ff6000
 }
 
 .r-rare {
-	border-color: #ffdc50;
+	border-color: #ffdc50
 }
 
 .r-epic {
-	border-color: #aa32ff;
+	border-color: #aa32ff
 }
 
 .r-leggendary {
-	border-color: #e60000;
+	border-color: #e60000
 }
 
-.r-god {
-	border-color: rgb(0,0,220);
-	border-style: solid !important;
-	border-radius: 0 !important;
-	outline: 3px solid white;
+.r-god1 {
+	border-color: rgb(0,0,220)
 }
-span {
+
+.r-god2 {
+	border-color: #00ffff
+}
+
+.r-god3 {
+	border-color: black;
+	border-style: solid
+}
+
+td span {
 	font-weight: bold;
-	font-size: 17px;
-	font-style: normal !important;
+	font-size: 16px;
+	font-style: normal !important
 }

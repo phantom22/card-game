@@ -521,6 +521,111 @@ var cards = {
 			"value":505
 		
 		},
+		
+		16:{
+			
+			"name":"X16",
+			"value":550
+		
+		},
+		
+		17:{
+			
+			"name":"X17",
+			"value":595
+		
+		},
+		
+		18:{
+			
+			"name":"X18",
+			"value":640
+		
+		},
+		
+		19:{
+			
+			"name":"X19",
+			"value":590
+		
+		},
+		
+		20:{
+			
+			"name":"X20",
+			"value":640
+		
+		},
+		
+		21:{
+			
+			"name":"X21",
+			"value":695
+		
+		},
+		
+		22:{
+			
+			"name":"X22",
+			"value":750
+		
+		},
+		
+		23:{
+			
+			"name":"X23",
+			"value":810
+		
+		},
+		
+		24:{
+			
+			"name":"X24",
+			"value":875
+		
+		},
+		
+		25:{
+			
+			"name":"X25",
+			"value":940
+		
+		},
+		
+		26:{
+			
+			"name":"X26",
+			"value":1010
+		
+		},
+		
+		27:{
+			
+			"name":"X27",
+			"value":1085
+		
+		},
+		
+		28:{
+			
+			"name":"X28",
+			"value":1160
+		
+		},
+		
+		29:{
+			
+			"name":"X29",
+			"value":1240
+		
+		},
+		
+		30:{
+			
+			"name":"X30",
+			"value":1325
+		
+		}
 
 	}
 
@@ -554,6 +659,7 @@ function pick(n,debug) {
 		
 			var th = document.createElement("th");
 			th.id = "card" + i;
+			th.dataset.index = i + 1;
 			tr.appendChild(th);
 		
 		}
@@ -565,6 +671,7 @@ function pick(n,debug) {
 		
 			var td = document.createElement("td");
 			td.id = "info" + i;
+			th.dataset.index = i + 1;
 			tr.appendChild(td);
 		
 		}
@@ -577,6 +684,7 @@ function pick(n,debug) {
 
 	// randomizing a card for n times
 	var tempd = 0;
+	var tempde = 0;
 	currentDeck = [];
 	currentDeck.boost = Math.floor(Math.random() * 5);
 
@@ -585,13 +693,23 @@ function pick(n,debug) {
 		var currentCard = [];
 
 		var type = Math.floor(Math.random() * 5);
-		
+
 		if (type === 4) {
 			
-			tempd += 1;
-		}
+			var number = Math.floor(Math.random() * 31);
+			if (number !== 30) {
+				tempd += 1;
+			}
+			else {
+				tempde += 1;
+			}
 
-		var number = Math.floor(Math.random() * 14);
+		}
+		else {
+
+			var number = Math.floor(Math.random() * 14);
+
+		}
 
 		var card = cards[type][number];
 
@@ -599,15 +717,18 @@ function pick(n,debug) {
 		currentCard.push(cardName);
 
 		var cardVal = card.value;
+		var multiplier = 0;
 		if (type == currentDeck.boost && cardName !== "JOKER") {
 
 			var cardVal = cardVal * 2;
+			multiplier += 2;
 
 		}
 
 		else if (type == currentDeck.boost && cardName == "JOKER") {
 
 			var cardVal = cardVal * 3;
+			multiplier += 3;
 
 		}
 
@@ -622,9 +743,9 @@ function pick(n,debug) {
 
 		}
 
-		currentDeck.strenght += cardVal;
-		currentDeck.push(currentCard);
 		currentCard.push(type);
+		currentCard.push(multiplier);
+		currentDeck.push(currentCard);
 
 	}
 
@@ -634,186 +755,172 @@ function pick(n,debug) {
 		tempd = undefined;
 
 	}
+	
+	if (tempde == 0) {
 
-	// boosting the strenght of the card by x2, if at least one divinity and the card isn't a divinity
+		tempde = undefined;
+	
+	}
+
+	// boosting the strenght of the card by x3, if at least one divinity and the card isn't a divinity
 	if (tempd) {
 
 		for (i = 0;i < n;i++) {
 
+			// if not divinity
 			if (currentDeck[i][3] !== 4) {
 
-				currentDeck[i][1] = currentDeck[i][1] * (tempd * 2);
+				// calculating strenght
+				currentDeck[i][1] = currentDeck[i][1] * (tempd * 3);
+
+				// if current card multiplier is not 0
+				if (currentDeck[i][4] !== 0) {
+
+					currentDeck[i][4] = currentDeck[i][4] * (tempd * 3);
+
+				}
+
+				// if current card multiplier is 0
+				else if (currentDeck[i][4] == 0) {
+
+					currentDeck[i][4] += tempd * 3;
+
+				}
 
 			}
 
 		}
 
+	}
+	
+	// if devil, every card except devil x10
+	if (tempde) {
+
+		for (i = 0;i < n;i++) {
+
+			// if not devil
+			if (currentDeck[i][0] !== "X30") {
+
+				// calculating strenght
+				currentDeck[i][1] = currentDeck[i][1] * (tempde * 10);
+
+				// if current card multiplier is not 0
+				if (currentDeck[i][4] !== 0) {
+
+					currentDeck[i][4] = currentDeck[i][4] * (tempde * 10);
+
+				}
+
+				// if current card multiplier is 0
+				else if (currentDeck[i][4] == 0) {
+
+					currentDeck[i][4] += tempde * 10;
+
+				}
+
+			}
+
+		}
+
+	}
+	
+	// overall strenght calculation
+	for (i = 0;i < n;i++) {
+		currentDeck.strenght += currentDeck[i][1];
 	}
 
 	if (debug) {
 	
-	// classify card strenght with a color
-	for (i = 0;i < n;i++) {
+	// classify card strenght with a border color
+		for (i = 0;i < n;i++) {
 
-		if (currentDeck[i][1] <= 20) {
-			var rarity = "r-common";
-		}
-		else if (currentDeck[i][1] > 20 && currentDeck[i][1] <= 45) {
-			var rarity = "r-epic";
-		}
-		else if (currentDeck[i][1] > 45 && currentDeck[i][1] <= 70) {
-			var rarity = "r-rare";
-		}
-		else if (currentDeck[i][1] > 70 && currentDeck[i][1] <= 95) {
-			var rarity = "r-unique";
-		}
-		else if (currentDeck[i][1] > 95 && currentDeck[i][1] <= 170) {
-			var rarity = "r-leggendary";
-		}
-		else if (currentDeck[i][1] > 170) {
-			var rarity = "r-god";
-		}
-
-		var cs = "<img class='card " + rarity + "'";
-
-		document.getElementById("card" + i).innerHTML = cs + " src='" + currentDeck[i][2] + "' alt='" + currentDeck[i][0] + "'>";
-		
-		// classify amount of strenght added by boost with a color
-		if (currentDeck[i][3]) {
-
-			if (currentDeck[i][1] / 2 <= 20 && !tempd) {
-
-				var temp = "common";
-
+			if (currentDeck[i][1] <= 35) {
+				var rarity = "r-common";
+			}
+			else if (currentDeck[i][1] > 35 && currentDeck[i][1] <= 70) {
+				var rarity = "r-epic";
+			}
+			else if (currentDeck[i][1] > 70 && currentDeck[i][1] <= 105) {
+				var rarity = "r-rare";
+			}
+			else if (currentDeck[i][1] > 105 && currentDeck[i][1] <= 140) {
+				var rarity = "r-unique";
+			}
+			else if (currentDeck[i][1] > 140 && currentDeck[i][1] <= 175) {
+				var rarity = "r-leggendary";
+			}
+			else if (currentDeck[i][1] > 175 && currentDeck[i][1] <= 1000) {
+				var rarity = "r-god1";
+			}
+			else if (currentDeck[i][1] > 1000 && currentDeck[i][1] <= 2000) {
+				var rarity = "r-god2";
+			}
+			else if (currentDeck[i][1] > 2000 && currentDeck[i][1] <= 3000) {
+				var rarity = "r-god3";
 			}
 
-			else if (currentDeck[i][1] / 2 > 20 && currentDeck[i][1] / 2 <= 45 && !tempd) {
+			// card image output
+			document.getElementById("card" + i).innerHTML = "<img class='card " + rarity + "'" + " src='" + currentDeck[i][2] + "' alt='" + currentDeck[i][0] + "'>";
+			
+			// classify amount of strenght added by boost with a color
+			if (currentDeck[i][1]) {
+				
+				// if has multiplier
+				if (currentDeck[i][4] !== 0) {
+					var mult = currentDeck[i][4];
+					var temp_added = (currentDeck[i][1] / mult) * (mult - 1);
+				}
+				
+				// if divinity
+				else if (currentDeck[i][3] == 4) {
+					var temp_added = currentDeck[i][1];
+				}
 
-				var temp = "epic";
+				if (temp_added) {
 
-			}
-
-			else if (currentDeck[i][1] / 2 > 45 && currentDeck[i][1] / 2 <= 70 && !tempd) {
-
-				var temp = "rare";
-
-			}
-
-			else if (currentDeck[i][1] / 2 > 70 && currentDeck[i][1] / 2 <= 95 && !tempd) {
-
-				var temp = "unique";
-
-			}
-
-			else if (currentDeck[i][1] / 2 > 95 && currentDeck[i][1] / 2 <= 120 && !tempd) {
-
-				var temp = "leggendary";
-
-			}
-
-			else if (currentDeck[i][1] / 2 > 170 && !tempd) {
-
-				var temp = "god";
-
-			}
-
-			else if (tempd) {
-
-				if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) <= 20) {
-
-					var temp = "common";
+					if (temp_added <= 35) {
+						var temp = "common";
+					}
+					else if (temp_added > 35 && temp_added <= 70) {
+						var temp = "epic";
+					}
+					else if (temp_added > 70 && temp_added <= 105) {
+						var temp = "rare";
+					}
+					else if (temp_added > 105 && temp_added <= 140) {
+						var temp = "unique";
+					}
+					else if (temp_added > 140 && temp_added <= 175) {
+						var temp = "leggendary";
+					}
+					else if (temp_added > 175) {
+						var temp = "god";
+					}
 
 				}
 
-				else if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) > 20 && currentDeck[i][1] - currentDeck[i][1] / 2 <= 45) {
+			}
 
-					var temp = "epic";
-
-				}
-
-				else if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) > 45 && currentDeck[i][1] - currentDeck[i][1] / 2 <= 70) {
-
-					var temp = "rare";
-
-				}
-
-				else if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) > 70 && currentDeck[i][1] - currentDeck[i][1] / 2 <= 95) {
-
-					var temp = "unique";
-
-				}
-
-				else if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) > 95 && currentDeck[i][1] - currentDeck[i][1] / 2 <= 120) {
-
-
-					var temp = "leggendary";
-
-				}
-
-				else if (currentDeck[i][1] - currentDeck[i][1] / (tempd * 2) > 170) {
-
-					var temp = "god";
-
-				}
-	
+			var strenght_output = currentDeck[i][1];
+			
+			// if not divinity
+			if (currentDeck[i][4] !== 0 && temp) {
+				strenght_output += " <span class='" + temp + "'>" + "(x" + currentDeck[i][4] + ")" + "</span>";
 			}
 			
-		}
-
-		// if not joker with boost and 0 divinities
-		if (currentDeck[i][3] === currentDeck.boost && currentDeck[i][0] !== "JOKER" && !tempd) {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1] + " " +  "<span class='" + temp + "'>" + "(x2)" + "</span>";
-
-		}
-
-		// if joker with boost and 0 divinities
-		else if (currentDeck[i][3] === currentDeck.boost && currentDeck[i][0] == "JOKER" && !tempd) {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1] + " " +  "<span class='" + temp + "'>" + "(x3)" + "</span>";
+			// if divinity
+			else if (currentDeck[i][3] == 4) {
+				strenght_output = "<span class='" + temp + "'>" + currentDeck[i][1] + "</span>";
+			}
+			
+			document.getElementById("info" + i).innerHTML = strenght_output;
 
 		}
-
-		// if not divinity or joker with boost and with at least 1 divinity
-		else if (currentDeck[i][3] === currentDeck.boost && currentDeck[i][0] !== "JOKER" && tempd && currentDeck[i][3] !== 4) {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1] + " " +  "<span class='" + temp + "'>" + "(x" + (2 * (tempd * 2)) + ")" + "</span>";
-
-		}
-
-		// if joker (and not divinity) with boost and with at least 1 divinity
-		else if (currentDeck[i][3] === currentDeck.boost && currentDeck[i][0] == "JOKER" && tempd && currentDeck[i][3] !== 4) {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1] + " " +  "<span class='" + temp + "'>" + "(x" + (3 * (tempd * 2)) + ")" + "</span>";
-
-		}
-
-		// if not divinity and with at least 1 divinity 
-		else if (tempd && currentDeck[i][3] !== 4) {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1] + " " + "<span class='" + temp + "'>" + "(x" + (tempd * 2) + ")" + "</span>";
-
-		}
-
-		// if divinity
-		else if ( currentDeck[i][3] == 4) {
-
-			document.getElementById("info" + i).innerHTML = "<span class='" + temp + "'>" + currentDeck[i][1] + "</span>";
-
-		}
-
-		// common card with no boost
-		else {
-
-			document.getElementById("info" + i).innerHTML = currentDeck[i][1];
-
-		}
-
-	}
 
 		// card type (for output)
 		switch (currentDeck.boost) {
 
+			// EN and RU support
 			case 0: if(lang == "EN"){var currentBoost = "spades"}else if(lang == "RU"){var currentBoost = "Пика"}; break;
 			case 1: if(lang == "EN"){var currentBoost = "hearts"}else if(lang == "RU"){var currentBoost = "Чирва"}; break;
 			case 2: if(lang == "EN"){var currentBoost = "clubs"}else if(lang == "RU"){var currentBoost = "Кресты"}; break;
@@ -822,22 +929,12 @@ function pick(n,debug) {
 
 		}
 
-		if (lang == "EN") {
+		if (lang == "EN") {var msg_placeholder1 = "Strenght: ";var msg_placeholder2 = "Trump card: ";}
+		else if (lang == "RU") {var msg_placeholder1 = "Сила: ";var msg_placeholder2 = "Козырь: ";}
 
-			var msg_placeholder1 = "strenght: ";
-			var msg_placeholder2 = "Trump card: ";
-
-		}
-
-		else if (lang == "RU") {
-
-			var msg_placeholder1 = "Сила: ";
-			var msg_placeholder2 = "Козырь: ";
-
-		}
-
-		document.getElementById("strenght").textContent = msg_placeholder1 + currentDeck.strenght;
-		document.getElementById("boost").textContent = msg_placeholder2 + currentBoost;
+		// info output
+		document.getElementById("strenght").innerHTML = msg_placeholder1 + "<span>" + currentDeck.strenght + "</span>";
+		document.getElementById("boost").innerHTML = msg_placeholder2 + "<span>" + currentBoost + "</span>";
 
 		// table visible
 		document.getElementById("mainTable").style = "visibility:visible";
@@ -847,4 +944,4 @@ function pick(n,debug) {
 
 }
 
-pick(8,true);
+pick(7,true);
